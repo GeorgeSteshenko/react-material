@@ -28,9 +28,7 @@ const FormInput = ({
         multiline={multiline}
         rows={rows}
       />
-      {error && (
-        <FormHelperText id="component-error-text">{error}</FormHelperText>
-      )}
+      {error && <FormHelperText>{error}</FormHelperText>}
     </FormControl>
   );
 };
