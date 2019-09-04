@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Container } from "@material-ui/core";
 import FormInput from "../common/formInput";
+import Joi from "joi-browser";
 
 class Contact extends Component {
   state = {
@@ -12,7 +13,18 @@ class Contact extends Component {
     errors: {}
   };
 
+  schema = {
+    name: Joi.string().required(),
+    email: Joi.string().required(),
+    message: Joi.string().required()
+  };
+
   validate = () => {
+    const result = Joi.validate(this.state.contactForm, this.schema, {
+      abortEarly: false
+    });
+    console.log(result);
+
     const errors = {};
 
     const { contactForm } = this.state;
