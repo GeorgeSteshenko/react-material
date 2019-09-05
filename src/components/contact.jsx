@@ -6,7 +6,7 @@ import Joi from "joi-browser";
 class Contact extends Component {
   state = {
     contactForm: {
-      name: "",
+      fullname: "",
       email: "",
       message: ""
     },
@@ -14,38 +14,36 @@ class Contact extends Component {
   };
 
   schema = {
-    name: Joi.string().required(),
-    email: Joi.string().required(),
-    message: Joi.string().required()
+    fullname: Joi.string()
+      .required()
+      .label("Full Name"),
+    email: Joi.string()
+      .required()
+      .label("Email"),
+    message: Joi.string()
+      .required()
+      .label("Message")
   };
 
   validate = () => {
-    const result = Joi.validate(this.state.contactForm, this.schema, {
-      abortEarly: false
-    });
-    console.log(result);
+    const options = { abortEarly: false };
+    const { error } = Joi.validate(
+      this.state.contactForm,
+      this.schema,
+      options
+    );
+    if (!error) return null;
 
     const errors = {};
-
-    const { contactForm } = this.state;
-    if (contactForm.name.trim() === "") errors.name = "Name is required.";
-    if (contactForm.email.trim() === "") errors.email = "Email is required.";
-    if (contactForm.message.trim() === "")
-      errors.message = "Message is required.";
-
-    return Object.keys(errors).length === 0 ? null : errors;
+    for (let item of error.details) errors[item.path[0]] = item.message;
+    return errors;
   };
 
   validateProperty = ({ name, value }) => {
-    if (name === "name") {
-      if (value.trim() === "") return "Name is required.";
-    }
-    if (name === "email") {
-      if (value.trim() === "") return "Email is required.";
-    }
-    if (name === "message") {
-      if (value.trim() === "") return "Message is required.";
-    }
+    const obj = { [name]: value };
+    const schema = { [name]: this.schema[name] };
+    const { error } = Joi.validate(obj, schema);
+    return error ? error.details[0].message : null;
   };
 
   handleSubmit = e => {
@@ -78,12 +76,12 @@ class Contact extends Component {
         <form onSubmit={this.handleSubmit}>
           <h1>Contact Form</h1>
           <FormInput
-            name="name"
-            value={contactForm.name}
-            label="Name"
+            name="fullname"
+            value={contactForm.fullname}
+            label="Full Name"
             type="text"
             onChange={this.handleChange}
-            error={errors.name}
+            error={errors.fullname}
           />
           <FormInput
             name="email"
@@ -99,7 +97,7 @@ class Contact extends Component {
             label="Message"
             type="text"
             onChange={this.handleChange}
-            multiline="multiline"
+            multiline
             rows="10"
             error={errors.message}
           />

@@ -4,6 +4,7 @@ import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import Navbar from "./components/navbar";
 import { getPosts } from "./services/dummy-posts";
 import Posts from "./components/posts";
+import PostPage from "./components/postPage";
 import Contact from "./components/contact";
 import Home from "./components/home";
 import NotFound from "./components/notFound";
@@ -30,6 +31,7 @@ class App extends Component {
           </Toolbar>
         </AppBar>
         <Switch>
+          <Route path="/posts/:id" component={PostPage}></Route>
           <Route
             path="/posts"
             render={props => <Posts posts={this.state.posts} {...props} />}
