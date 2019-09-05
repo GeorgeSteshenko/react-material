@@ -1,4 +1,5 @@
-import React from "react";
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import {
   Container,
   Grid,
@@ -11,44 +12,51 @@ import {
   Button
 } from "@material-ui/core";
 
-const Posts = props => {
-  const { posts } = props;
+class Posts extends Component {
+  render() {
+    const { posts } = this.props;
 
-  return (
-    <Container style={{ padding: 30 }}>
-      <Grid container spacing={4} justify="center">
-        {posts.map(post => (
-          <Grid item key={post.title}>
-            <Card>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  alt="Contemplative Reptile"
-                  height="140"
-                  image={post.image}
-                  title="Contemplative Reptile"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {post.title}
-                  </Typography>
-                  <Typography component="p">{post.excerpt}</Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <Button size="small" color="primary">
-                  Share
-                </Button>
-                <Button size="small" color="primary">
-                  Learn More
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
-  );
-};
+    return (
+      <Container style={{ padding: 30 }}>
+        <Grid container spacing={4} justify="center">
+          {posts.map(post => (
+            <Grid item key={post._id}>
+              <Card>
+                <CardActionArea component={Link} to={`/posts/${post._id}`}>
+                  <CardMedia
+                    component="img"
+                    alt={post.title}
+                    height="140"
+                    image={post.image}
+                    title={post.title}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {post.title}
+                    </Typography>
+                    <Typography component="p">{post.excerpt}</Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Button size="small" color="primary">
+                    Share
+                  </Button>
+                  <Button
+                    size="small"
+                    color="primary"
+                    component={Link}
+                    to={`/posts/${post._id}`}
+                  >
+                    Learn More
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    );
+  }
+}
 
 export default Posts;
