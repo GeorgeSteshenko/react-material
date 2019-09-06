@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import { AppBar, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Toolbar, Container, Typography } from "@material-ui/core";
 import Navbar from "./components/navbar";
 import { getPosts } from "./services/dummy-posts";
 import Posts from "./components/posts";
@@ -24,12 +24,14 @@ class App extends Component {
     return (
       <Fragment>
         <AppBar color="primary" position="static">
-          <Toolbar>
-            <Typography variant="h6" color="inherit">
-              My header
-            </Typography>
-            <Navbar />
-          </Toolbar>
+          <Container>
+            <Toolbar disableGutters={true}>
+              <Typography variant="h6" color="inherit">
+                My header
+              </Typography>
+            </Toolbar>
+          </Container>
+          <Navbar />
         </AppBar>
         <Switch>
           <Route path="/posts/:id" component={PostPage}></Route>

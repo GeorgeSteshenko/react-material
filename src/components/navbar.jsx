@@ -1,53 +1,54 @@
-import React from "react";
-import { List, ListItem, ListItemText, Typography } from "@material-ui/core";
-import { NavLink } from "react-router-dom";
+import React, { Component } from "react";
+import { Tabs, Tab } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import { Home, Book, AccountBox, Info } from "@material-ui/icons";
+import { withRouter } from "react-router-dom";
 
-const Navbar = () => {
-  return (
-    <List component="nav">
-      <ListItem component="div">
-        <ListItemText inset>
-          <Typography variant="h6" component={NavLink} to="/" color="inherit">
-            Home <Home />
-          </Typography>
-        </ListItemText>
+class Navbar extends Component {
+  handleChange = value => {
+    this.props.history.push(value);
+  };
 
-        <ListItemText inset>
-          <Typography
-            variant="h6"
-            component={NavLink}
+  render() {
+    return (
+      <div>
+        <Tabs
+          value={this.props.history.location.pathname}
+          onChange={this.handleChange}
+          centered
+        >
+          <Tab
+            icon={<Home></Home>}
+            label="Home"
+            value="/"
+            component={Link}
+            to="/"
+          ></Tab>
+          <Tab
+            icon={<Book></Book>}
+            label="Posts"
+            value="/posts"
+            component={Link}
             to="/posts"
-            color="inherit"
-          >
-            Posts <Book />
-          </Typography>
-        </ListItemText>
-
-        <ListItemText inset>
-          <Typography
-            variant="h6"
-            component={NavLink}
+          ></Tab>
+          <Tab
+            icon={<AccountBox></AccountBox>}
+            label="About"
+            value="/about"
+            component={Link}
             to="/about"
-            color="inherit"
-          >
-            About <Info />
-          </Typography>
-        </ListItemText>
-
-        <ListItemText inset>
-          <Typography
-            variant="h6"
-            component={NavLink}
+          ></Tab>
+          <Tab
+            icon={<Info></Info>}
+            label="Contact"
+            value="/contact"
+            component={Link}
             to="/contact"
-            color="inherit"
-          >
-            Contact <AccountBox />
-          </Typography>
-        </ListItemText>
-      </ListItem>
-    </List>
-  );
-};
+          ></Tab>
+        </Tabs>
+      </div>
+    );
+  }
+}
 
-export default Navbar;
+export default withRouter(Navbar);
